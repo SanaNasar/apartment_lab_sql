@@ -26,7 +26,7 @@ Write down the following sql statements that are required to solve the following
 Ans: \dt
 
 2. Show all the users.
-Ans: SELECT * FROM "pg_user";
+Ans: \du
 
 3. Show all the data in the owners table.
 Ans: SELECT * FROM owners;
@@ -65,7 +65,7 @@ Ans:  INSERT INTO properties (name, number_of_units, owner_id) VALUES ('Archston
 Ans: DELETE FROM owners WHERE name = 'Jane';
 
 15. Show all of the properties in alphabetical order that are not named Archstone and do not have an id of 3 or 5.
-Ans: SELECT name, property_id FROM properties WHERE name != 'Archstone' AND property_id NOT IN (3,5);
+Ans: SELECT name, property_id FROM properties WHERE name <> 'Archstone' AND property_id NOT IN (3,5) ORDER BY name ASC;
   (OR)
 SELECT name, property_id FROM properties WHERE name != 'Archstone' AND (property_id != 3 AND property_id !=5);
 
@@ -77,9 +77,11 @@ Ans: SELECT MAX(age) FROM owners;
 
 18. Show the names of the first three owners in your owners table.
 Ans: SELECT name FROM owners WHERE owner_id <= 3;
+	(OR)
+	SELECT * FROM owners LIMIT 3;
 
 19. Create a foreign key that references the owner_id in the owners table and forces the constraint ON DELETE NO ACTION. 
-Ans: ALTER TABLE owners ADD CONSTRAINT owner_fk FOREIGN KEY(owner_id) REFERENCES owners (owner_id) ON DELETE NO ACTION;
+Ans: ALTER TABLE properties ADD CONSTRAINT owner_fk FOREIGN KEY(owner_id) REFERENCES owners (owner_id) ON DELETE NO ACTION;
 
 20. Show all of the information from the owners table and the properties table in one joined table.
 Ans: SELECT * FROM owners JOIN properties ON owners.owner_id=properties.owner_id;
@@ -87,10 +89,10 @@ Ans: SELECT * FROM owners JOIN properties ON owners.owner_id=properties.owner_id
 Bonus (this might require you to look up documentation online)
 
 1. In the properties table change the name of the column "name" to "property_name".
-Ans: ALTER TABLE properties RENAME name TO property_name;
+Ans: ALTER TABLE properties RENAME COLUMN name TO property_name;
 
 2. Count the total number of properties where the owner_id is between 1 and 3.
-Ans: SELECT COUNT(property_id) FROM properties WHERE property_id BETWEEN 	  1 AND 3;
+Ans: SELECT COUNT(property_id) FROM properties WHERE owner_id BETWEEN 	  1 AND 3;
 (OR)
-	SELECT COUNT(*) FROM properties WHERE property_id BETWEEN 1 AND 3;
+	SELECT COUNT(*) FROM properties WHERE owner_id BETWEEN 1 AND 3;
 ```
